@@ -23,7 +23,11 @@ public class Note {
 	 *            the text in the body of the note
 	 */
 	public Note(String noteAuthor, String noteText) {
-		// TODO Auto-generated constructor stub
+		if (noteAuthor == null || noteText == null || noteAuthor.equals("") || noteText.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		this.noteAuthor = noteAuthor;
+		this.noteText = noteText;
 	}
 
 	/**
@@ -32,17 +36,7 @@ public class Note {
 	 * @return author of the note
 	 */
 	public String getNoteAuthor() {
-		return "";
-	}
-
-	/**
-	 * Sets the author of the note
-	 * 
-	 * @param author
-	 *            who wrote the note
-	 */
-	private void setNotAuthor(String author) {
-
+		return noteAuthor;
 	}
 
 	/**
@@ -51,18 +45,9 @@ public class Note {
 	 * @return text in the body of the note
 	 */
 	public String getNoteText() {
-		return "";
+		return noteText;
 	}
 
-	/**
-	 * Sets the text in the note
-	 * 
-	 * @param text
-	 *            the text to set the noteText to
-	 */
-	private void setNoteText(String text) {
-
-	}
 
 	/**
 	 * Gets an array containing the note author and note text
@@ -70,6 +55,7 @@ public class Note {
 	 * @return a 1d array containing the note info
 	 */
 	public String[] getNoteArray() {
-		return null;
+		String[] noteArray = { noteAuthor, noteText };
+		return noteArray;
 	}
 }

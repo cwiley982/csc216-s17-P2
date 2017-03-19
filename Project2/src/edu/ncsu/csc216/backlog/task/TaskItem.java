@@ -83,8 +83,16 @@ public class TaskItem {
 	 * @param noteText
 	 *            the note added when creating the task
 	 */
-	public TaskItem(String title, Type type, String creator, String noteText) {
-		// TODO Auto-generated constructor stub
+	public TaskItem(String title, Type type, String creator, String note) {
+		this.title = title;
+		this.type = type;
+		this.creator = creator;
+		owner = null;
+		notes = new ArrayList<Note>();
+		notes.add(new Note(creator, note));
+		taskId = counter;
+		setState(BACKLOG_NAME);
+		incrementCounter();
 	}
 
 	/**
@@ -95,7 +103,7 @@ public class TaskItem {
 	 *            the TaskItem to create
 	 */
 	public TaskItem(Task task) {
-
+		// TODO figure out how to use xml library to complete this constructor
 	}
 
 	/**
@@ -103,7 +111,7 @@ public class TaskItem {
 	 * than the previous task
 	 */
 	public static void incrementCounter() {
-
+		counter += 1;
 	}
 
 	/**
@@ -112,7 +120,7 @@ public class TaskItem {
 	 * @return the id of the task
 	 */
 	public int getTaskItemId() {
-		return -1;
+		return taskId;
 	}
 
 	/**
@@ -121,7 +129,21 @@ public class TaskItem {
 	 * @return String representing the current state of the task
 	 */
 	public String getStateName() {
-		return "";
+		if (this.state == backlogState) {
+			return BACKLOG_NAME;
+		} else if (this.state == ownedState) {
+			return OWNED_NAME;
+		} else if (this.state == processingState) {
+			return PROCESSING_NAME;
+		} else if (this.state == verifyingState) {
+			return VERIFYING_NAME;
+		} else if (this.state == doneState) {
+			return DONE_NAME;
+		} else if (this.state == rejectedState) {
+			return REJECTED_NAME;
+		} else {
+			return "";
+		}
 	}
 
 	/**
@@ -131,7 +153,26 @@ public class TaskItem {
 	 *            the state to set the task to
 	 */
 	private void setState(String state) {
-
+		if (state == null) {
+			throw new IllegalArgumentException();
+		}
+		if (!state.equals(BACKLOG_NAME) && !state.equals(OWNED_NAME) && !state.equals(PROCESSING_NAME)
+				&& !state.equals(VERIFYING_NAME) && !state.equals(DONE_NAME) && !state.equals(REJECTED_NAME)) {
+			throw new IllegalArgumentException();
+		}
+		if (state.equals(BACKLOG_NAME)) {
+			this.state = backlogState;
+		} else if (state.equals(OWNED_NAME)) {
+			this.state = ownedState;
+		} else if (state.equals(PROCESSING_NAME)) {
+			this.state = processingState;
+		} else if (state.equals(VERIFYING_NAME)) {
+			this.state = verifyingState;
+		} else if (state.equals(DONE_NAME)) {
+			this.state = doneState;
+		} else if (state.equals(REJECTED_NAME)) {
+			this.state = rejectedState;
+		}
 	}
 
 	/**
@@ -141,7 +182,22 @@ public class TaskItem {
 	 *            the type to set the task as
 	 */
 	private void setType(String type) {
-
+		if (type == null) {
+			throw new IllegalArgumentException();
+		}
+		if (!type.equals(T_BUG) && !type.equals(T_FEATURE) && !type.equals(T_KNOWLEDGE_ACQUSITION)
+				&& !type.equals(T_TECHNICAL_WORK)) {
+			throw new IllegalArgumentException();
+		}
+		if (type.equals(T_BUG)) {
+			this.type = Type.BUG;
+		} else if (type.equals(T_FEATURE)) {
+			this.type = Type.FEATURE;
+		} else if (type.equals(T_KNOWLEDGE_ACQUSITION)) {
+			this.type = Type.KNOWLEDGE_ACQUISITION;
+		} else if (type.equals(T_TECHNICAL_WORK)) {
+			this.type = Type.TECHNICAL_WORK;
+		}
 	}
 
 	/**
@@ -150,7 +206,7 @@ public class TaskItem {
 	 * @return the type of task
 	 */
 	public Type getType() {
-		return null;
+		return type;
 	}
 
 	/**
@@ -159,7 +215,17 @@ public class TaskItem {
 	 * @return String for the type of task (1 or 2 letters only)
 	 */
 	public String getTypeString() {
-		return "";
+		if (type == Type.BUG) {
+			return T_BUG;
+		} else if (type == Type.FEATURE) {
+			return T_FEATURE;
+		} else if (type == Type.KNOWLEDGE_ACQUISITION) {
+			return T_KNOWLEDGE_ACQUSITION;
+		} else if (type == Type.TECHNICAL_WORK) {
+			return T_TECHNICAL_WORK;
+		} else {
+			return "";
+		}
 	}
 
 	/**
@@ -168,7 +234,17 @@ public class TaskItem {
 	 * @return String for the type of task (full type name)
 	 */
 	public String getTypeFullString() {
-		return "";
+		if (type == Type.BUG) {
+			return "Bug";
+		} else if (type == Type.FEATURE) {
+			return "Feature";
+		} else if (type == Type.KNOWLEDGE_ACQUISITION) {
+			return "Knowledge Acquisition";
+		} else if (type == Type.TECHNICAL_WORK) {
+			return "Technical Work";
+		} else {
+			return "";
+		}
 	}
 
 	/**
@@ -177,7 +253,7 @@ public class TaskItem {
 	 * @return String showing owner's id
 	 */
 	public String getOwner() {
-		return "";
+		return owner;
 	}
 
 	/**
@@ -186,7 +262,7 @@ public class TaskItem {
 	 * @return title of the task
 	 */
 	public String getTitle() {
-		return "";
+		return title;
 	}
 
 	/**
@@ -195,7 +271,7 @@ public class TaskItem {
 	 * @return creator's id
 	 */
 	public String getCreator() {
-		return "";
+		return creator;
 	}
 
 	/**
@@ -204,7 +280,7 @@ public class TaskItem {
 	 * @return an array list of notes for the task
 	 */
 	public ArrayList<Note> getNotes() {
-		return null;
+		return notes;
 	}
 
 	/**
@@ -215,7 +291,7 @@ public class TaskItem {
 	 *            the command to use to update the task
 	 */
 	public void update(Command command) {
-
+		state.updateState(command);
 	}
 
 	/**
@@ -224,6 +300,7 @@ public class TaskItem {
 	 * @return a Task that can be written to an XML file
 	 */
 	public Task getXMLTask() {
+		// TODO
 		return null;
 	}
 
@@ -235,8 +312,12 @@ public class TaskItem {
 	 * @param counter
 	 *            the number to set the counter to
 	 */
-	public static void setCounter(int counter) {
-
+	public static void setCounter(int newCounter) {
+		if (newCounter <= 0) {
+			throw new IllegalArgumentException();
+		} else {
+			counter = newCounter;
+		}
 	}
 
 	/**
@@ -246,7 +327,11 @@ public class TaskItem {
 	 * @return 2d String array containing notes and their authors
 	 */
 	public String[][] getNotesArray() {
-		return null;
+		String[][] notesArray = new String[notes.size()][notes.size()];
+		for (int i = 0; i < notes.size(); i++) {
+			notesArray[i] = notes.get(i).getNoteArray();
+		}
+		return notesArray;
 	}
 
 	/**
@@ -267,20 +352,32 @@ public class TaskItem {
 
 		/**
 		 * Updates the state of the task by using the command given
+		 * 
+		 * @param c
+		 *            the command to use to update the state
 		 */
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			if (c.getCommand() == CommandValue.CLAIM) {
+				state = ownedState;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				owner = c.getNoteAutor();
+			} else if (c.getCommand() == CommandValue.REJECT) {
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else {
+				throw new UnsupportedOperationException();
+			}
 
 		}
 
 		/**
-		 * Updates the state name
+		 * Returns the state name
+		 * 
+		 * @return the name of the state
 		 */
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return BACKLOG_NAME;
 		}
 
 	}
@@ -296,20 +393,35 @@ public class TaskItem {
 
 		/**
 		 * Updates the state of the task by using the command given
+		 * 
+		 * @param c
+		 *            the command to use to update the state
 		 */
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
-
+			if (c.getCommand() == CommandValue.BACKLOG) {
+				state = backlogState;
+				owner = null;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else if (c.getCommand() == CommandValue.PROCESS) {
+				state = processingState;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else if (c.getCommand() == CommandValue.REJECT) {
+				state = rejectedState;
+				owner = null;
+			} else {
+				throw new UnsupportedOperationException();
+			}
 		}
 
 		/**
-		 * Updates the state name
+		 * Returns the state name
+		 * 
+		 * @return the name of the state
 		 */
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return OWNED_NAME;
 		}
 
 	}
@@ -325,20 +437,46 @@ public class TaskItem {
 
 		/**
 		 * Updates the state of the task by using the command given
+		 * 
+		 * @param c
+		 *            the command to use to update the state
 		 */
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			if (c.getCommand() == CommandValue.PROCESS) {
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else if (c.getCommand() == CommandValue.COMPLETE) {
+				if (type == Type.KNOWLEDGE_ACQUISITION) {
+					state = doneState;
+					notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				} else {
+					throw new UnsupportedOperationException();
+				}
+			} else if (c.getCommand() == CommandValue.VERIFY) {
+				if (type != Type.KNOWLEDGE_ACQUISITION) {
+					state = verifyingState;
+					notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				} else {
+					throw new UnsupportedOperationException();
+				}
+			} else if (c.getCommand() == CommandValue.BACKLOG) {
+				state = backlogState;
+				owner = null;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else {
+				throw new UnsupportedOperationException();
+			}
 
 		}
 
 		/**
-		 * Updates the state name
+		 * Returns the state name
+		 * 
+		 * @return the name of the state
 		 */
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return PROCESSING_NAME;
 		}
 
 	}
@@ -354,20 +492,32 @@ public class TaskItem {
 
 		/**
 		 * Updates the state of the task by using the command given
+		 * 
+		 * @param c
+		 *            the command to use to update the state
 		 */
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			if (c.getCommand() == CommandValue.PROCESS) {
+				state = processingState;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else if (c.getCommand() == CommandValue.COMPLETE) {
+				state = doneState;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else {
+				throw new UnsupportedOperationException();
+			}
 
 		}
 
 		/**
-		 * Updates the state name
+		 * Returns the state name
+		 * 
+		 * @return the name of the state
 		 */
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return VERIFYING_NAME;
 		}
 
 	}
@@ -383,20 +533,33 @@ public class TaskItem {
 
 		/**
 		 * Updates the state of the task by using the command given
+		 * 
+		 * @param c
+		 *            the command to use to update the state
 		 */
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			if (c.getCommand() == CommandValue.PROCESS) {
+				state = processingState;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else if (c.getCommand() == CommandValue.BACKLOG) {
+				state = backlogState;
+				owner = null;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else {
+				throw new UnsupportedOperationException();
+			}
 
 		}
 
 		/**
-		 * Updates the state name
+		 * Returns the state name
+		 * 
+		 * @return the name of the state
 		 */
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return DONE_NAME;
 		}
 
 	}
@@ -412,20 +575,28 @@ public class TaskItem {
 
 		/**
 		 * Updates the state of the task by using the command given
+		 * 
+		 * @param c
+		 *            the command to use to update the state
 		 */
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
-
+			if (c.getCommand() == CommandValue.BACKLOG) {
+				state = backlogState;
+				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+			} else {
+				throw new UnsupportedOperationException();
+			}
 		}
 
 		/**
-		 * Updates the state name
+		 * Returns the state name
+		 * 
+		 * @return the name of the state
 		 */
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return REJECTED_NAME;
 		}
 
 	}

@@ -25,8 +25,13 @@ public class Command {
 	 * @param noteAuthor
 	 *            the author of the note
 	 */
-	public Command(CommandValue commandValue, String note, String noteAuthor) {
-		// TODO Auto-generated constructor stub
+	public Command(CommandValue c, String noteAuthor, String noteText) {
+		if (c == null || noteAuthor == null || noteText == null || noteAuthor.equals("") || noteText.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		this.c = c;
+		this.note = noteText;
+		this.noteAuthor = noteAuthor;
 	}
 
 	/**
@@ -35,7 +40,7 @@ public class Command {
 	 * @return the command value corresponding to the command
 	 */
 	public CommandValue getCommand() {
-		return null;
+		return c;
 	}
 
 	/**
@@ -44,7 +49,7 @@ public class Command {
 	 * @return the note text
 	 */
 	public String getNoteText() {
-		return "";
+		return note;
 	}
 
 	/**
@@ -53,7 +58,7 @@ public class Command {
 	 * @return the author of the note
 	 */
 	public String getNoteAutor() {
-		return "";
+		return noteAuthor;
 	}
 
 	/**

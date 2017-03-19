@@ -5,6 +5,8 @@ import java.util.List;
 
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.backlog.task.TaskItem;
+import edu.ncsu.csc216.backlog.task.TaskItem.Type;
+import edu.ncsu.csc216.task.xml.Task;
 
 /**
  * This class creates and holds a list of TaskItems and can sort the list,
@@ -24,14 +26,15 @@ public class TaskItemList {
 	 * Constructs a TaskItemList and initializes the ArrayList of TaskItems
 	 */
 	public TaskItemList() {
-		// TODO Auto-generated constructor stub
+		TaskItem.setCounter(INITIAL_COUNTER_VALUE);
+		tasks = new ArrayList<TaskItem>();
 	}
 
 	/**
 	 * Clears the ArrayList of TaskItems
 	 */
 	private void emptyList() {
-
+		tasks = new ArrayList<TaskItem>();
 	}
 
 	/**
@@ -48,7 +51,8 @@ public class TaskItemList {
 	 * @return
 	 */
 	public int addTaskItem(String title, Type type, String creator, String noteText) {
-
+		tasks.add(new TaskItem(title, type, creator, noteText));
+		return tasks.get(tasks.size()).getTaskItemId();
 	}
 
 	/**
@@ -58,7 +62,7 @@ public class TaskItemList {
 	 *            the List of Tasks to be read
 	 */
 	public void addXMLTasks(List<Task> tasks) {
-
+		// TODO
 	}
 
 	/**
@@ -67,7 +71,7 @@ public class TaskItemList {
 	 * @return the list of current tasks
 	 */
 	public List<TaskItem> getTaskItems() {
-		return null;
+		return tasks;
 	}
 
 	/**
@@ -80,7 +84,13 @@ public class TaskItemList {
 	 *         parameter
 	 */
 	public List<TaskItem> getTaskItemsByOwner(String owner) {
-		return null;
+		ArrayList<TaskItem> haveSameOwner = new ArrayList<TaskItem>();
+		for (int i = 0; i < tasks.size(); i++) {
+			if (tasks.get(i).getOwner().equals(owner)) {
+				haveSameOwner.add(tasks.get(i));
+			}
+		}
+		return haveSameOwner;
 	}
 
 	/**
@@ -93,7 +103,13 @@ public class TaskItemList {
 	 *         parameter
 	 */
 	public List<TaskItem> getTasksByCreator(String creator) {
-		return null;
+		ArrayList<TaskItem> haveSameCreator = new ArrayList<TaskItem>();
+		for (int i = 0; i < tasks.size(); i++) {
+			if (tasks.get(i).getOwner().equals(creator)) {
+				haveSameCreator.add(tasks.get(i));
+			}
+		}
+		return haveSameCreator;
 	}
 
 	/**
@@ -104,6 +120,11 @@ public class TaskItemList {
 	 * @return the task with the id specified
 	 */
 	public TaskItem getTaskItemById(int id) {
+		for (int i = 0; i < tasks.size(); i++) {
+			if (tasks.get(i).getTaskItemId() == id) {
+				return tasks.get(i);
+			}
+		}
 		return null;
 	}
 
@@ -116,7 +137,7 @@ public class TaskItemList {
 	 *            tells what to do with the task
 	 */
 	public void executeCommand(int taskId, Command command) {
-
+		getTaskItemById(taskId).update(command);
 	}
 
 	/**
@@ -126,6 +147,10 @@ public class TaskItemList {
 	 *            id of the task to delete
 	 */
 	public void deleteTaskItemById(int id) {
-
+		for (int i = 0; i < tasks.size(); i++) {
+			if (tasks.get(i).getTaskItemId() == id) {
+				tasks.remove(i);
+			}
+		}
 	}
 }

@@ -33,8 +33,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import edu.ncsu.csc216.backlog.command.Command;
+import edu.ncsu.csc216.backlog.command.Command.CommandValue;
 import edu.ncsu.csc216.backlog.scrum_backlog.ScrumBacklogModel;
 import edu.ncsu.csc216.backlog.task.TaskItem;
+import edu.ncsu.csc216.task.xml.NoteItem;
 
 /**
  * Container for the ScrumBacklog that has the menu options for new task list
