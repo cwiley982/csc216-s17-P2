@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.backlog.task.TaskItem;
 import edu.ncsu.csc216.backlog.task.TaskItem.Type;
+import edu.ncsu.csc216.task.xml.TaskIOException;
+import edu.ncsu.csc216.task.xml.TaskReader;
+import edu.ncsu.csc216.task.xml.TaskWriter;
 
 /**
  * This class handles all actions the user can take and edits the tasks
@@ -47,7 +50,16 @@ public class ScrumBacklogModel {
 		if (taskItemList == null) {
 			throw new IllegalArgumentException();
 		}
-		// TODO use xml library
+		try {
+			TaskWriter writer = new TaskWriter(filename);
+			ArrayList<TaskItem> taskItems = (ArrayList<TaskItem>) taskItemList.getTaskItems();
+			for (int i = 0; i < taskItems.size(); i++) {
+				writer.addItem(taskItems.get(i).getXMLTask());
+			}
+			writer.marshal();
+		} catch (TaskIOException e) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**
@@ -57,7 +69,13 @@ public class ScrumBacklogModel {
 	 *            the name of the file to load tasks from
 	 */
 	public void loadTasksFromFile(String filename) {
-		// TODO use xml library
+		try {
+			TaskReader reader = new TaskReader(filename);
+			taskItemList.addXMLTasks(reader.getTasks());
+			TaskItem.setCounter(reader.getTasks().size() + 1);
+		} catch (TaskIOException e) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.backlog.command.Command.CommandValue;
+import edu.ncsu.csc216.task.xml.NoteItem;
+import edu.ncsu.csc216.task.xml.NoteList;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
@@ -43,25 +45,25 @@ public class TaskItem {
 	/** Holds an instance of RejectedState */
 	private final TaskItemState rejectedState = new RejectedState();
 	/** The string displayed when the task is in the Backlog state */
-	private static final String BACKLOG_NAME = "Backlog";
+	public static final String BACKLOG_NAME = "Backlog";
 	/** The string displayed when the task is in the Owned state */
-	private static final String OWNED_NAME = "Owned";
+	public static final String OWNED_NAME = "Owned";
 	/** The string displayed when the task is in the Processing state */
-	private static final String PROCESSING_NAME = "Processing";
+	public static final String PROCESSING_NAME = "Processing";
 	/** The string displayed when the task is in the Verifying state */
-	private static final String VERIFYING_NAME = "Verifying";
+	public static final String VERIFYING_NAME = "Verifying";
 	/** The string displayed when the task is in the Done state */
-	private static final String DONE_NAME = "Done";
+	public static final String DONE_NAME = "Done";
 	/** The string displayed when the task is in the Rejected state */
-	private static final String REJECTED_NAME = "Rejected";
+	public static final String REJECTED_NAME = "Rejected";
 	/** The string displayed if the task is a Feature */
-	private static final String T_FEATURE = "F";
+	public static final String T_FEATURE = "F";
 	/** The string displayed if the task is a Bug */
-	private static final String T_BUG = "B";
+	public static final String T_BUG = "B";
 	/** The string displayed if the task is a Technical Work */
-	private static final String T_TECHNICAL_WORK = "TW";
+	public static final String T_TECHNICAL_WORK = "TW";
 	/** The string displayed if the task is a Knowledge Acquisition */
-	private static final String T_KNOWLEDGE_ACQUSITION = "KA";
+	public static final String T_KNOWLEDGE_ACQUSITION = "KA";
 	/**
 	 * Updates when a task is created to keep track of the previous task's id
 	 */
@@ -103,7 +105,19 @@ public class TaskItem {
 	 *            the TaskItem to create
 	 */
 	public TaskItem(Task task) {
-		// TODO figure out how to use xml library to complete this constructor
+		this.title = task.getTitle();
+		this.creator = task.getCreator();
+		this.owner = task.getOwner();
+		this.isVerified = task.isVerified();
+		setType(task.getType());
+		this.taskId = task.getId();
+		setState(task.getState());
+		for (int i = 0; i < task.getNoteList().getNotes().size(); i++) {
+			Note note = new Note(task.getNoteList().getNotes().get(i).getNoteAuthor(),
+					task.getNoteList().getNotes().get(i).getNoteText());
+			notes.add(note);
+
+		}
 	}
 
 	/**
@@ -300,8 +314,19 @@ public class TaskItem {
 	 * @return a Task that can be written to an XML file
 	 */
 	public Task getXMLTask() {
-		// TODO
-		return null;
+		Task task = new Task();
+		task.setTitle(getTitle());
+		task.setType(getTypeString());
+		task.setCreator(getCreator());
+		NoteList noteList = new NoteList();
+		for (int i = 0; i < getNotes().size(); i++) {
+			NoteItem noteItem = new NoteItem();
+			noteItem.setNoteAuthor(getNotes().get(i).getNoteAuthor());
+			noteItem.setNoteText(getNotes().get(i).getNoteText());
+			noteList.getNotes().add(noteItem);
+		}
+		task.setNoteList(noteList);
+		return task;
 	}
 
 	/**
@@ -503,6 +528,7 @@ public class TaskItem {
 				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.COMPLETE) {
 				state = doneState;
+				isVerified = true;
 				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
