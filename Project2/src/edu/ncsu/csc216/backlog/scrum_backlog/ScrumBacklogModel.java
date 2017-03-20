@@ -21,13 +21,13 @@ public class ScrumBacklogModel {
 	/** A list of all tasks in the scrum system */
 	private TaskItemList taskItemList;
 	/** Holds a single instance of ScrumBacklogModel that never changes */
-	private static ScrumBacklogModel singleton;
+	private static ScrumBacklogModel singleton = new ScrumBacklogModel();
 
 	/**
 	 * Constructs an instance of the ScrumBacklogModel
 	 */
 	private ScrumBacklogModel() {
-		singleton = new ScrumBacklogModel();
+		taskItemList = new TaskItemList();
 	}
 
 	/**
