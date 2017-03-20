@@ -86,6 +86,10 @@ public class TaskItem {
 	 *            the note added when creating the task
 	 */
 	public TaskItem(String title, Type type, String creator, String note) {
+		if (type == null || title == null || creator == null || note == null || title.isEmpty() || creator.isEmpty()
+				|| note.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		this.title = title;
 		this.type = type;
 		this.creator = creator;
