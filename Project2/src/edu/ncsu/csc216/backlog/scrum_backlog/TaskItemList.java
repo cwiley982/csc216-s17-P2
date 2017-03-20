@@ -63,10 +63,9 @@ public class TaskItemList {
 	 */
 	public void addXMLTasks(List<Task> tasks) {
 		for (int i = 0; i < tasks.size(); i++) {
-			Task task = tasks.get(i);
-			addTaskItem(task);
+			TaskItem taskItem = new TaskItem(tasks.get(i));
+			addTaskItem(taskItem);
 		}
-		// TODO
 	}
 
 	/**
