@@ -389,10 +389,10 @@ public class TaskItem {
 		public void updateState(Command c) {
 			if (c.getCommand() == CommandValue.CLAIM) {
 				state = ownedState;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
-				owner = c.getNoteAutor();
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				owner = c.getNoteAuthor();
 			} else if (c.getCommand() == CommandValue.REJECT) {
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -431,10 +431,10 @@ public class TaskItem {
 			if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				owner = null;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.PROCESS) {
 				state = processingState;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.REJECT) {
 				state = rejectedState;
 				owner = null;
@@ -473,25 +473,25 @@ public class TaskItem {
 		@Override
 		public void updateState(Command c) {
 			if (c.getCommand() == CommandValue.PROCESS) {
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.COMPLETE) {
 				if (type == Type.KNOWLEDGE_ACQUISITION) {
 					state = doneState;
-					notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+					notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 				} else {
 					throw new UnsupportedOperationException();
 				}
 			} else if (c.getCommand() == CommandValue.VERIFY) {
 				if (type != Type.KNOWLEDGE_ACQUISITION) {
 					state = verifyingState;
-					notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+					notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 				} else {
 					throw new UnsupportedOperationException();
 				}
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				owner = null;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -529,11 +529,11 @@ public class TaskItem {
 		public void updateState(Command c) {
 			if (c.getCommand() == CommandValue.PROCESS) {
 				state = processingState;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.COMPLETE) {
 				state = doneState;
 				isVerified = true;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -571,11 +571,11 @@ public class TaskItem {
 		public void updateState(Command c) {
 			if (c.getCommand() == CommandValue.PROCESS) {
 				state = processingState;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				owner = null;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -613,7 +613,7 @@ public class TaskItem {
 		public void updateState(Command c) {
 			if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
-				notes.add(new Note(c.getNoteAutor(), c.getNoteText()));
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
 			}
