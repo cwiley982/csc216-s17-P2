@@ -57,7 +57,7 @@ public class Command {
 	 * 
 	 * @return the author of the note
 	 */
-	public String getNoteAutor() {
+	public String getNoteAuthor() {
 		return noteAuthor;
 	}
 
