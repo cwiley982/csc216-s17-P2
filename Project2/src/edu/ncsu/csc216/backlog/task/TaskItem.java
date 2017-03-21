@@ -82,7 +82,7 @@ public class TaskItem {
 	 *            of task created
 	 * @param creator
 	 *            id of the person who created the task
-	 * @param noteText
+	 * @param note
 	 *            the note added when creating the task
 	 */
 	public TaskItem(String title, Type type, String creator, String note) {
@@ -239,10 +239,8 @@ public class TaskItem {
 			return T_FEATURE;
 		} else if (type == Type.KNOWLEDGE_ACQUISITION) {
 			return T_KNOWLEDGE_ACQUSITION;
-		} else if (type == Type.TECHNICAL_WORK) {
+		} else { // if (type == Type.TECHNICAL_WORK)
 			return T_TECHNICAL_WORK;
-		} else {
-			return "";
 		}
 	}
 
@@ -258,10 +256,8 @@ public class TaskItem {
 			return "Feature";
 		} else if (type == Type.KNOWLEDGE_ACQUISITION) {
 			return "Knowledge Acquisition";
-		} else if (type == Type.TECHNICAL_WORK) {
+		} else { // if (type == Type.TECHNICAL_WORK)
 			return "Technical Work";
-		} else {
-			return "";
 		}
 	}
 
@@ -322,6 +318,8 @@ public class TaskItem {
 		task.setTitle(getTitle());
 		task.setType(getTypeString());
 		task.setCreator(getCreator());
+		task.setId(getTaskItemId());
+		task.setState(getStateName());
 		NoteList noteList = new NoteList();
 		for (int i = 0; i < getNotes().size(); i++) {
 			NoteItem noteItem = new NoteItem();
@@ -329,6 +327,7 @@ public class TaskItem {
 			noteItem.setNoteText(getNotes().get(i).getNoteText());
 			noteList.getNotes().add(noteItem);
 		}
+		task.setVerified(isVerified);
 		task.setNoteList(noteList);
 		return task;
 	}
@@ -338,7 +337,7 @@ public class TaskItem {
 	 * loaded and the user wants to add more tasks and doesn't want the task ids
 	 * to start counting at 1
 	 * 
-	 * @param counter
+	 * @param newCounter
 	 *            the number to set the counter to
 	 */
 	public static void setCounter(int newCounter) {
@@ -392,6 +391,7 @@ public class TaskItem {
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 				owner = c.getNoteAuthor();
 			} else if (c.getCommand() == CommandValue.REJECT) {
+				state = rejectedState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
@@ -411,6 +411,13 @@ public class TaskItem {
 
 	}
 
+	/**
+	 * This class handles any changes in state when the task is in the Owned
+	 * state
+	 * 
+	 * @author Caitlyn
+	 *
+	 */
 	private class OwnedState implements TaskItemState {
 
 		/**
@@ -455,6 +462,13 @@ public class TaskItem {
 
 	}
 
+	/**
+	 * This class handles any changes in state when the task is in the
+	 * Processing state
+	 * 
+	 * @author Caitlyn
+	 *
+	 */
 	private class ProcessingState implements TaskItemState {
 
 		/**
@@ -510,6 +524,13 @@ public class TaskItem {
 
 	}
 
+	/**
+	 * This class handles any changes in state when the task is in the Verifying
+	 * state
+	 * 
+	 * @author Caitlyn
+	 *
+	 */
 	private class VerifyingState implements TaskItemState {
 
 		/**
@@ -552,6 +573,13 @@ public class TaskItem {
 
 	}
 
+	/**
+	 * This class handles any changes in state when the task is in the Done
+	 * state
+	 * 
+	 * @author Caitlyn
+	 *
+	 */
 	private class DoneState implements TaskItemState {
 
 		/**
@@ -594,6 +622,13 @@ public class TaskItem {
 
 	}
 
+	/**
+	 * This class handles any changes in state when the task is in the Rejected
+	 * state
+	 * 
+	 * @author Caitlyn
+	 *
+	 */
 	private class RejectedState implements TaskItemState {
 
 		/**
@@ -639,7 +674,14 @@ public class TaskItem {
 	 *
 	 */
 	public static enum Type {
-		FEATURE, BUG, TECHNICAL_WORK, KNOWLEDGE_ACQUISITION
+		/** Feature type */
+		FEATURE,
+		/** Bug type */
+		BUG,
+		/** Technical work type */
+		TECHNICAL_WORK,
+		/** Knowledge acquisition type */
+		KNOWLEDGE_ACQUISITION
 	}
 
 	/**

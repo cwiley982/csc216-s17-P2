@@ -18,12 +18,12 @@ public class Command {
 	/**
 	 * Constructs a command that takes a command value, note and note author
 	 * 
-	 * @param commandValue
+	 * @param c
 	 *            corresponds to the action taken by the user
-	 * @param note
-	 *            the note the owner left when they changed the task
 	 * @param noteAuthor
 	 *            the author of the note
+	 * @param noteText
+	 *            the note the owner left when they changed the task
 	 */
 	public Command(CommandValue c, String noteAuthor, String noteText) {
 		if (c == null || noteAuthor == null || noteText == null || noteAuthor.equals("") || noteText.equals("")) {
@@ -69,7 +69,18 @@ public class Command {
 	 *
 	 */
 	public static enum CommandValue {
-		BACKLOG, CLAIM, PROCESS, VERIFY, COMPLETE, REJECT
+		/** command to backlog task */
+		BACKLOG,
+		/** command to claim task */
+		CLAIM,
+		/** command to process task */
+		PROCESS,
+		/** command to verify task */
+		VERIFY,
+		/** command to complete task */
+		COMPLETE,
+		/** command to rejet task */
+		REJECT
 	}
 
 }

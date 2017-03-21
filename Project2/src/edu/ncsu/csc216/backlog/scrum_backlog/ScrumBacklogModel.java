@@ -144,7 +144,7 @@ public class ScrumBacklogModel {
 	 * 
 	 * @param id
 	 *            the id of the task wanted
-	 * @return
+	 * @return the task with the matching id number
 	 */
 	public TaskItem getTaskItemById(int id) {
 		for (int i = 0; i < taskItemList.getTaskItems().size(); i++) {

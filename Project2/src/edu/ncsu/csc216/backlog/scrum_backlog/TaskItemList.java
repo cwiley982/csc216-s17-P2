@@ -48,7 +48,7 @@ public class TaskItemList {
 	 *            who created the TaskItem
 	 * @param noteText
 	 *            text in the initial note for the TaskItem
-	 * @return
+	 * @return the id number of the task added
 	 */
 	public int addTaskItem(String title, Type type, String creator, String noteText) {
 		tasks.add(new TaskItem(title, type, creator, noteText));
