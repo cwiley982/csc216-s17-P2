@@ -108,7 +108,7 @@ public class TaskItemList {
 	 * @return a List of TaskItems whose creator is the creator passed as a
 	 *         parameter
 	 */
-	public List<TaskItem> getTaskItemsByCreator(String creator) {
+	public List<TaskItem> getTasksByCreator(String creator) {
 		if (creator == null) {
 			throw new IllegalArgumentException();
 		}

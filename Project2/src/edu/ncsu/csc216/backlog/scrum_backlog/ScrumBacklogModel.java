@@ -129,7 +129,7 @@ public class ScrumBacklogModel {
 	 */
 	public Object[][] getTaskItemListByCreatorAsArray(String creator) {
 		ArrayList<TaskItem> listOfTasksCreatedByCreator = (ArrayList<TaskItem>) taskItemList
-				.getTaskItemsByCreator(creator);
+				.getTasksByCreator(creator);
 		Object[][] taskArray = new Object[listOfTasksCreatedByCreator.size()][3];
 		for (int i = 0; i < listOfTasksCreatedByCreator.size(); i++) {
 			taskArray[i][0] = listOfTasksCreatedByCreator.get(i).getTaskItemId();
