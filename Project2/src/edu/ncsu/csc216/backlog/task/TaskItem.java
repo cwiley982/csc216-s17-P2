@@ -93,7 +93,7 @@ public class TaskItem {
 		this.title = title;
 		this.type = type;
 		this.creator = creator;
-		owner = null;
+		owner = "owner";
 		notes = new ArrayList<Note>();
 		notes.add(new Note(creator, note));
 		taskId = counter;
@@ -424,14 +424,14 @@ public class TaskItem {
 		public void updateState(Command c) {
 			if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
-				owner = null;
+				owner = "owner";
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.PROCESS) {
 				state = processingState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.REJECT) {
 				state = rejectedState;
-				owner = null;
+				owner = "owner";
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -491,7 +491,7 @@ public class TaskItem {
 				}
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
-				owner = null;
+				owner = "owner";
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
@@ -636,7 +636,7 @@ public class TaskItem {
 			if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-				owner = null;
+				owner = "owner";
 			} else {
 				throw new UnsupportedOperationException();
 			}

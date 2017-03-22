@@ -261,7 +261,7 @@ public class TaskItemTest {
 		xmlTask.setTitle("Task 1");
 		xmlTask.setType("B");
 		xmlTask.setId(1);
-		xmlTask.setOwner(null);
+		xmlTask.setOwner("owner");
 		xmlTask.setState("Backlog");
 		xmlTask.setVerified(false);
 		NoteList list = new NoteList();
