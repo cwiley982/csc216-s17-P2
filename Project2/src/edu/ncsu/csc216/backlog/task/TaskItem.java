@@ -480,7 +480,7 @@ public class TaskItem {
 				if (type == Type.KNOWLEDGE_ACQUISITION) {
 					state = doneState;
 					notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-					owner = null;
+					owner = "owner";
 				} else {
 					throw new UnsupportedOperationException();
 				}
@@ -544,7 +544,7 @@ public class TaskItem {
 				state = doneState;
 				isVerified = true;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-				owner = null;
+				owner = "owner";
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -590,6 +590,7 @@ public class TaskItem {
 			if (c.getCommand() == CommandValue.PROCESS) {
 				state = processingState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				owner = "owner";
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				owner = "owner";
