@@ -590,7 +590,7 @@ public class TaskItem {
 			if (c.getCommand() == CommandValue.PROCESS) {
 				state = processingState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-				owner = "owner";
+				owner = c.getNoteAuthor();
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				owner = "owner";
