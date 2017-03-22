@@ -52,7 +52,7 @@ public class TaskItemList {
 	 */
 	public int addTaskItem(String title, Type type, String creator, String noteText) {
 		tasks.add(new TaskItem(title, type, creator, noteText));
-		return tasks.get(tasks.size()).getTaskItemId();
+		return tasks.size(); // since counter starts at 1, size == last task id
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class TaskItemList {
 	public List<TaskItem> getTasksByCreator(String creator) {
 		ArrayList<TaskItem> haveSameCreator = new ArrayList<TaskItem>();
 		for (int i = 0; i < tasks.size(); i++) {
-			if (tasks.get(i).getOwner().equals(creator)) {
+			if (tasks.get(i).getCreator().equals(creator)) {
 				haveSameCreator.add(tasks.get(i));
 			}
 		}
@@ -140,7 +140,9 @@ public class TaskItemList {
 	 *            tells what to do with the task
 	 */
 	public void executeCommand(int taskId, Command command) {
-		getTaskItemById(taskId).update(command);
+		if (getTaskItemById(taskId) != null) {
+			getTaskItemById(taskId).update(command);
+		}
 	}
 
 	/**

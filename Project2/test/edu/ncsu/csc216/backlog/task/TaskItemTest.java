@@ -156,14 +156,6 @@ public class TaskItemTest {
 	}
 
 	/**
-	 * Tests setting the state of a task
-	 */
-	@Test
-	public void testSetState() {
-		// TODO
-	}
-
-	/**
 	 * Tests getting the task's type
 	 */
 	@Test
@@ -333,5 +325,209 @@ public class TaskItemTest {
 		notes[4][0] = "cjwiley2";
 		notes[4][1] = "Fifth note.";
 		assertEquals(notes[2][1], task.getNotesArray()[2][1]);
+	}
+
+	/**
+	 * Tests possible transitions between states that haven't been covered in
+	 * previous tests to cover all branches
+	 */
+	@Test
+	public void testTransitionsBetweenStates() {
+		// backlog to verify
+		TaskItem task = null;
+		try {
+			task = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task.update(new Command(CommandValue.VERIFY, "cjwiley2", "Second note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task);
+			assertEquals("Backlog", task.getStateName());
+		}
+		// owned to backlog
+		TaskItem task2 = null;
+		try {
+			task2 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task2.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task2.update(new Command(CommandValue.BACKLOG, "cjwiley2", "Third note."));
+			assertEquals("Backlog", task2.getStateName());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// owned to rejected
+		TaskItem task3 = null;
+		try {
+			task3 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task3.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task3.update(new Command(CommandValue.REJECT, "cjwiley2", "Third note."));
+			assertEquals("Rejected", task3.getStateName());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// owned to verify
+		TaskItem task4 = null;
+		try {
+			task4 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task4.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task4.update(new Command(CommandValue.VERIFY, "cjwiley2", "Third note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task4);
+			assertEquals("Owned", task4.getStateName());
+		}
+		// processing to processing
+		TaskItem task5 = null;
+		try {
+			task5 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task5.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task5.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task5.update(new Command(CommandValue.PROCESS, "cjwiley2", "Fourth note."));
+			assertEquals("Fourth note.", task5.getNotes().get(3).getNoteText());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// processing to complete (KA)
+		TaskItem task6 = null;
+		try {
+			task6 = new TaskItem("Task 1", Type.KNOWLEDGE_ACQUISITION, "cjwiley2", "Initial note.");
+			task6.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task6.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task6.update(new Command(CommandValue.COMPLETE, "cjwiley2", "Fourth note."));
+			assertEquals("Done", task6.getStateName());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// processing to complete (other type)
+		TaskItem task7 = null;
+		try {
+			task7 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task7.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task7.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task7.update(new Command(CommandValue.COMPLETE, "cjwiley2", "Third note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task7);
+			assertEquals("Processing", task7.getStateName());
+		}
+		// processing to verify (KA)
+		TaskItem task8 = null;
+		try {
+			task8 = new TaskItem("Task 1", Type.KNOWLEDGE_ACQUISITION, "cjwiley2", "Initial note.");
+			task8.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task8.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task8.update(new Command(CommandValue.VERIFY, "cjwiley2", "Fourth note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task8);
+			assertEquals("Processing", task8.getStateName());
+		}
+		// processing to backlog
+		TaskItem task9 = null;
+		try {
+			task9 = new TaskItem("Task 1", Type.KNOWLEDGE_ACQUISITION, "cjwiley2", "Initial note.");
+			task9.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task9.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task9.update(new Command(CommandValue.BACKLOG, "cjwiley2", "Fourth note."));
+			assertEquals("Backlog", task9.getStateName());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// processing to rejected
+		TaskItem task10 = null;
+		try {
+			task10 = new TaskItem("Task 1", Type.KNOWLEDGE_ACQUISITION, "cjwiley2", "Initial note.");
+			task10.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task10.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task10.update(new Command(CommandValue.REJECT, "cjwiley2", "Fourth note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task10);
+			assertEquals("Processing", task10.getStateName());
+		}
+		// verify to processing
+		TaskItem task11 = null;
+		try {
+			task11 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task11.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task11.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task11.update(new Command(CommandValue.VERIFY, "cjwiley2", "Fourth note."));
+			task11.update(new Command(CommandValue.PROCESS, "cjwiley2", "Fifth note."));
+			assertEquals("Fifth note.", task11.getNotes().get(4).getNoteText());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// verify to backlog
+		TaskItem task12 = null;
+		try {
+			task12 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task12.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task12.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task12.update(new Command(CommandValue.VERIFY, "cjwiley2", "Fourth note."));
+			task12.update(new Command(CommandValue.BACKLOG, "cjwiley2", "Fifth note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task12);
+			assertEquals("Verifying", task12.getStateName());
+		}
+		// done to process
+		TaskItem task13 = null;
+		try {
+			task13 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task13.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task13.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task13.update(new Command(CommandValue.VERIFY, "cjwiley2", "Fourth note."));
+			task13.update(new Command(CommandValue.COMPLETE, "cjwiley2", "Fifth note."));
+			task13.update(new Command(CommandValue.PROCESS, "cjwiley2", "Sixth note."));
+			assertEquals("Processing", task13.getStateName());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// done to backlog
+		TaskItem task14 = null;
+		try {
+			task14 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task14.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task14.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task14.update(new Command(CommandValue.VERIFY, "cjwiley2", "Fourth note."));
+			task14.update(new Command(CommandValue.COMPLETE, "cjwiley2", "Fifth note."));
+			task14.update(new Command(CommandValue.BACKLOG, "cjwiley2", "Fifth note."));
+			assertEquals("Backlog", task14.getStateName());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// done to reject
+		TaskItem task15 = null;
+		try {
+			task15 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task15.update(new Command(CommandValue.CLAIM, "cjwiley2", "Second note."));
+			task15.update(new Command(CommandValue.PROCESS, "cjwiley2", "Third note."));
+			task15.update(new Command(CommandValue.VERIFY, "cjwiley2", "Fourth note."));
+			task15.update(new Command(CommandValue.COMPLETE, "cjwiley2", "Fifth note."));
+			task15.update(new Command(CommandValue.REJECT, "cjwiley2", "Fifth note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task15);
+			assertEquals("Done", task15.getStateName());
+		}
+		// reject to backlog
+		TaskItem task16 = null;
+		try {
+			task16 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task16.update(new Command(CommandValue.REJECT, "cjwiley2", "Second note."));
+			task16.update(new Command(CommandValue.BACKLOG, "cjwiley2", "Third note."));
+			assertEquals("Backlog", task16.getStateName());
+		} catch (UnsupportedOperationException e) {
+			fail();
+		}
+		// reject to verify
+		TaskItem task17 = null;
+		try {
+			task17 = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+			task17.update(new Command(CommandValue.REJECT, "cjwiley2", "Second note."));
+			task17.update(new Command(CommandValue.VERIFY, "cjwiley2", "Third note."));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertNotNull(task17);
+			assertEquals("Rejected", task17.getStateName());
+		}
 	}
 }

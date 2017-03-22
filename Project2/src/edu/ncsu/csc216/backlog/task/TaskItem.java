@@ -109,6 +109,7 @@ public class TaskItem {
 	 *            the TaskItem to create
 	 */
 	public TaskItem(Task task) {
+		notes = new ArrayList<Note>();
 		this.title = task.getTitle();
 		this.creator = task.getCreator();
 		this.owner = task.getOwner();
@@ -147,21 +148,7 @@ public class TaskItem {
 	 * @return String representing the current state of the task
 	 */
 	public String getStateName() {
-		if (this.state == backlogState) {
-			return BACKLOG_NAME;
-		} else if (this.state == ownedState) {
-			return OWNED_NAME;
-		} else if (this.state == processingState) {
-			return PROCESSING_NAME;
-		} else if (this.state == verifyingState) {
-			return VERIFYING_NAME;
-		} else if (this.state == doneState) {
-			return DONE_NAME;
-		} else if (this.state == rejectedState) {
-			return REJECTED_NAME;
-		} else {
-			return "";
-		}
+		return state.getStateName();
 	}
 
 	/**

@@ -129,7 +129,7 @@ public class ScrumBacklogModel {
 	 */
 	public Object[][] getTaskItemListByCreatorAsArray(String creator) {
 		ArrayList<TaskItem> listOfTasksCreatedByCreator = (ArrayList<TaskItem>) taskItemList
-				.getTaskItemsByOwner(creator);
+				.getTasksByCreator(creator);
 		String[][] taskArray = new String[listOfTasksCreatedByCreator.size()][3];
 		for (int i = 0; i < listOfTasksCreatedByCreator.size(); i++) {
 			taskArray[i][0] = Integer.toString(listOfTasksCreatedByCreator.get(i).getTaskItemId());
@@ -164,11 +164,7 @@ public class ScrumBacklogModel {
 	 *            the command to execute
 	 */
 	public void executeCommand(int id, Command command) {
-		for (int i = 0; i < taskItemList.getTaskItems().size(); i++) {
-			if (taskItemList.getTaskItems().get(i).getTaskItemId() == id) {
-				taskItemList.getTaskItems().get(i).update(command);
-			}
-		}
+		taskItemList.executeCommand(id, command);
 	}
 
 	/**
@@ -178,11 +174,7 @@ public class ScrumBacklogModel {
 	 *            the id of the task to delete
 	 */
 	public void deleteTaskItemById(int id) {
-		for (int i = 0; i < taskItemList.getTaskItems().size(); i++) {
-			if (taskItemList.getTaskItems().get(i).getTaskItemId() == id) {
-				taskItemList.getTaskItems().remove(i);
-			}
-		}
+		taskItemList.deleteTaskItemById(id);
 	}
 
 	/**
@@ -198,6 +190,6 @@ public class ScrumBacklogModel {
 	 *            the initial note left on the task
 	 */
 	public void addTaskItemToList(String title, Type type, String creator, String noteText) {
-		taskItemList.getTaskItems().add(new TaskItem(title, type, creator, noteText));
+		taskItemList.addTaskItem(title, type, creator, noteText);
 	}
 }
