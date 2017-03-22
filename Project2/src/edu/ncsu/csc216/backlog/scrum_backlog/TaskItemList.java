@@ -33,9 +33,9 @@ public class TaskItemList {
 	/**
 	 * Clears the ArrayList of TaskItems
 	 */
-	private void emptyList() {
-		tasks = new ArrayList<TaskItem>();
-	}
+	// private void emptyList() {
+	// tasks = new ArrayList<TaskItem>();
+	// }
 
 	/**
 	 * Adds a TaskItem to the list

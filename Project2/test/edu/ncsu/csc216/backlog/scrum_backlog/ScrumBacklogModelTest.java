@@ -2,6 +2,7 @@ package edu.ncsu.csc216.backlog.scrum_backlog;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public class ScrumBacklogModelTest {
 		ScrumBacklogModel.getInstance().addTaskItemToList("Express Carts", Type.FEATURE, "jep",
 				"Express carts always choose the shortest line. If there are multiple shortest lines, an express cart chooses the one with the smallest index.");
 		ScrumBacklogModel.getInstance().saveTasksToFile("test-files/act_task_backlog.xml");
-		checkFiles("test-files/exp_task_backlog.xml", "test-files/act_task_backlog.xml");
+		assertTrue(checkFiles("test-files/exp_task_backlog.xml", "test-files/act_task_backlog.xml"));
 
 	}
 
@@ -162,7 +163,7 @@ public class ScrumBacklogModelTest {
 	 * @param actFile
 	 *            actual output
 	 */
-	private void checkFiles(String expectedFile, String actualFile) {
+	private boolean checkFiles(String expectedFile, String actualFile) {
 		try {
 			Scanner expectedIn = new Scanner(new File(expectedFile));
 			Scanner actualIn = new Scanner(new File(actualFile));
@@ -171,15 +172,17 @@ public class ScrumBacklogModelTest {
 				assertEquals("Expected File: " + expectedFile, expectedIn.nextLine(), actualIn.nextLine());
 			}
 			if (actualIn.hasNextLine()) {
-				fail("Expected File: " + expectedFile + " Actual File has more lines than expected file.");
+				expectedIn.close();
+				actualIn.close();
+				return false;
 			}
-
 			expectedIn.close();
 			actualIn.close();
+			return true;
 		} catch (FileNotFoundException e) {
-			fail("Expected File: " + expectedFile + " FileNotFound for expected or actual file.");
+			return false;
 		} catch (NoSuchElementException e) {
-			fail("Expected File: " + expectedFile + " One of the files didn't have an expected line.");
+			return false;
 		}
 	}
 

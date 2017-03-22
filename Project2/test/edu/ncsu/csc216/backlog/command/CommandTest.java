@@ -104,4 +104,22 @@ public class CommandTest {
 		assertEquals("cjwiley2", c.getNoteAuthor());
 	}
 
+	/**
+	 * Tests the valueOf method
+	 */
+	@Test
+	public void testValueOf() {
+		Command c = new Command(CommandValue.BACKLOG, "cjwiley2", "note");
+		assertEquals(CommandValue.valueOf("BACKLOG"), c.getCommand());
+	}
+
+	/**
+	 * Tests the values method
+	 */
+	@Test
+	public void testValues() {
+		CommandValue[] values = { CommandValue.BACKLOG, CommandValue.CLAIM, CommandValue.PROCESS, CommandValue.VERIFY,
+				CommandValue.COMPLETE, CommandValue.REJECT };
+		assertEquals(values[3], CommandValue.values()[3]);
+	}
 }
