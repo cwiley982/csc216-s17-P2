@@ -380,7 +380,6 @@ public class TaskItem {
 			} else if (c.getCommand() == CommandValue.REJECT) {
 				state = rejectedState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-				owner = null;
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -493,7 +492,7 @@ public class TaskItem {
 				}
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
-				owner = "owner";
+				owner = null;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
@@ -544,7 +543,7 @@ public class TaskItem {
 				state = doneState;
 				isVerified = true;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-				owner = "owner";
+				owner = c.getNoteAuthor();
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -593,7 +592,7 @@ public class TaskItem {
 				owner = c.getNoteAuthor();
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
-				owner = "owner";
+				owner = null;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
@@ -640,7 +639,7 @@ public class TaskItem {
 			if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-				owner = "owner";
+				owner = null;
 			} else {
 				throw new UnsupportedOperationException();
 			}
