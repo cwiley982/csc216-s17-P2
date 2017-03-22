@@ -87,9 +87,12 @@ public class TaskItemList {
 	 *         parameter
 	 */
 	public List<TaskItem> getTaskItemsByOwner(String owner) {
+		if (owner == null) {
+			throw new IllegalArgumentException();
+		}
 		ArrayList<TaskItem> haveSameOwner = new ArrayList<TaskItem>();
 		for (int i = 0; i < tasks.size(); i++) {
-			if (tasks.get(i).getOwner().equals(owner)) {
+			if (tasks.get(i).getOwner() != null && tasks.get(i).getOwner().equals(owner)) {
 				haveSameOwner.add(tasks.get(i));
 			}
 		}
@@ -105,7 +108,10 @@ public class TaskItemList {
 	 * @return a List of TaskItems whose creator is the creator passed as a
 	 *         parameter
 	 */
-	public List<TaskItem> getTasksByCreator(String creator) {
+	public List<TaskItem> getTaskItemsByCreator(String creator) {
+		if (creator == null) {
+			throw new IllegalArgumentException();
+		}
 		ArrayList<TaskItem> haveSameCreator = new ArrayList<TaskItem>();
 		for (int i = 0; i < tasks.size(); i++) {
 			if (tasks.get(i).getCreator().equals(creator)) {

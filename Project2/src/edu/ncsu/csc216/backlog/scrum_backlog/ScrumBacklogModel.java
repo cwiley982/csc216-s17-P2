@@ -91,9 +91,9 @@ public class ScrumBacklogModel {
 	 * @return a 2d array with all tasks' info
 	 */
 	public Object[][] getTaskItemListAsArray() {
-		String[][] taskArray = new String[taskItemList.getTaskItems().size()][3];
+		Object[][] taskArray = new Object[taskItemList.getTaskItems().size()][3];
 		for (int i = 0; i < taskItemList.getTaskItems().size(); i++) {
-			taskArray[i][0] = Integer.toString(taskItemList.getTaskItems().get(i).getTaskItemId());
+			taskArray[i][0] = taskItemList.getTaskItems().get(i).getTaskItemId();
 			taskArray[i][1] = taskItemList.getTaskItems().get(i).getStateName();
 			taskArray[i][2] = taskItemList.getTaskItems().get(i).getTitle();
 		}
@@ -110,9 +110,9 @@ public class ScrumBacklogModel {
 	 */
 	public Object[][] getTaskItemListByOwnerAsArray(String owner) {
 		ArrayList<TaskItem> listOfTasksOwnedByOwner = (ArrayList<TaskItem>) taskItemList.getTaskItemsByOwner(owner);
-		String[][] taskArray = new String[listOfTasksOwnedByOwner.size()][3];
+		Object[][] taskArray = new Object[listOfTasksOwnedByOwner.size()][3];
 		for (int i = 0; i < listOfTasksOwnedByOwner.size(); i++) {
-			taskArray[i][0] = Integer.toString(listOfTasksOwnedByOwner.get(i).getTaskItemId());
+			taskArray[i][0] = listOfTasksOwnedByOwner.get(i).getTaskItemId();
 			taskArray[i][1] = listOfTasksOwnedByOwner.get(i).getStateName();
 			taskArray[i][2] = listOfTasksOwnedByOwner.get(i).getTitle();
 		}
@@ -129,10 +129,10 @@ public class ScrumBacklogModel {
 	 */
 	public Object[][] getTaskItemListByCreatorAsArray(String creator) {
 		ArrayList<TaskItem> listOfTasksCreatedByCreator = (ArrayList<TaskItem>) taskItemList
-				.getTasksByCreator(creator);
-		String[][] taskArray = new String[listOfTasksCreatedByCreator.size()][3];
+				.getTaskItemsByCreator(creator);
+		Object[][] taskArray = new Object[listOfTasksCreatedByCreator.size()][3];
 		for (int i = 0; i < listOfTasksCreatedByCreator.size(); i++) {
-			taskArray[i][0] = Integer.toString(listOfTasksCreatedByCreator.get(i).getTaskItemId());
+			taskArray[i][0] = listOfTasksCreatedByCreator.get(i).getTaskItemId();
 			taskArray[i][1] = listOfTasksCreatedByCreator.get(i).getStateName();
 			taskArray[i][2] = listOfTasksCreatedByCreator.get(i).getTitle();
 		}
