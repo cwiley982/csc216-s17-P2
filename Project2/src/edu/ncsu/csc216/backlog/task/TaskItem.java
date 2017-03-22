@@ -589,7 +589,7 @@ public class TaskItem {
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
-				owner = null;
+				owner = "owner";
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else {
 				throw new UnsupportedOperationException();
@@ -636,6 +636,7 @@ public class TaskItem {
 			if (c.getCommand() == CommandValue.BACKLOG) {
 				state = backlogState;
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				owner = null;
 			} else {
 				throw new UnsupportedOperationException();
 			}
