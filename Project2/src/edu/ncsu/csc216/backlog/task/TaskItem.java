@@ -480,7 +480,6 @@ public class TaskItem {
 				if (type == Type.KNOWLEDGE_ACQUISITION) {
 					state = doneState;
 					notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-					owner = "owner";
 				} else {
 					throw new UnsupportedOperationException();
 				}
