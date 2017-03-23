@@ -94,7 +94,7 @@ public class ScrumBacklogModelTest {
 		ScrumBacklogModel.getInstance().addTaskItemToList("Task 1", Type.KNOWLEDGE_ACQUISITION, "me", "note");
 		assertEquals("Task 1", ScrumBacklogModel.getInstance().getTaskItemListAsArray()[0][2]);
 		ScrumBacklogModel.getInstance().addTaskItemToList("Task 2", Type.TECHNICAL_WORK, "me", "note");
-		assertEquals("2", ScrumBacklogModel.getInstance().getTaskItemListAsArray()[1][0]);
+		assertEquals(2, ScrumBacklogModel.getInstance().getTaskItemListAsArray()[1][0]);
 	}
 
 	/**

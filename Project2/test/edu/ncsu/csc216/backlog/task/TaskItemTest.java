@@ -256,13 +256,14 @@ public class TaskItemTest {
 	@Test
 	public void testGetXMLTask() {
 		TaskItem task = new TaskItem("Task 1", Type.BUG, "cjwiley2", "Initial note.");
+		task.update(new Command(CommandValue.CLAIM, "owner", "note"));
 		Task xmlTask = new Task();
 		xmlTask.setCreator("cjwiley2");
 		xmlTask.setTitle("Task 1");
 		xmlTask.setType("B");
 		xmlTask.setId(1);
 		xmlTask.setOwner("owner");
-		xmlTask.setState("Backlog");
+		xmlTask.setState("Owned");
 		xmlTask.setVerified(false);
 		NoteList list = new NoteList();
 		NoteItem note = new NoteItem();
