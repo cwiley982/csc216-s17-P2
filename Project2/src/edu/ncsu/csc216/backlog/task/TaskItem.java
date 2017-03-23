@@ -305,6 +305,7 @@ public class TaskItem {
 		task.setTitle(getTitle());
 		task.setType(getTypeString());
 		task.setCreator(getCreator());
+		task.setOwner(getOwner());
 		task.setId(getTaskItemId());
 		task.setState(getStateName());
 		NoteList noteList = new NoteList();
