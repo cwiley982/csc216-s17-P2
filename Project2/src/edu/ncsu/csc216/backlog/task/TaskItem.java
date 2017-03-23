@@ -431,6 +431,7 @@ public class TaskItem {
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 			} else if (c.getCommand() == CommandValue.REJECT) {
 				state = rejectedState;
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 				owner = null;
 			} else {
 				throw new UnsupportedOperationException();
